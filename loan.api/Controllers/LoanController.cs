@@ -55,7 +55,7 @@ namespace loan.api.Controllers
                 }
                 else
                 {
-                    return BadRequest("");
+                    return BadRequest("no user found");
                 }
             }
             else
@@ -68,7 +68,16 @@ namespace loan.api.Controllers
         [HttpDelete("Delete-loan/{id}")]
         public IActionResult DeleteLoan(int id)
         {
-            return Ok();
+            var loan = _con.Loans.Where(x => x.Id == id).FirstOrDefault();
+            if(loan != null) 
+            { 
+                _con.Loans.Remove(loan);
+                return Ok("user deleted successfully");
+            }
+            else
+            {
+                return NotFound("user not found");
+            }
         }
     }
 }
